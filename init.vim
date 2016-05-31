@@ -5,7 +5,6 @@ Plug 'https://github.com/Raimondi/delimitMate'
 " Don't use deoplete. It was interupting typing too much
 " Plug 'https://github.com/Shougo/deoplete.nvim'
 Plug 'https://github.com/airblade/vim-gitgutter.git'
-Plug 'https://github.com/altercation/vim-colors-solarized'
 Plug 'https://github.com/benekastah/neomake'
 Plug 'https://github.com/jeetsukumaran/vim-indentwise'
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
@@ -100,9 +99,7 @@ set hidden
 " Look and Feel {{{
 set background=dark
 " Make sure to set iTerm to xterm-256color
-let g:solarized_termcolors=16
-let g:solarized_termtrans=0
-colorscheme solarized
+colorscheme onedark
 
 " set fillchars=diff:⣿,vert:\│
 set fillchars=diff:-,vert:\│
@@ -128,8 +125,6 @@ set linebreak     " break at whitespace
 set nolist        " list disables linebreak
 set nowrap
 set nolazyredraw
-set breakindent
-set breakindentopt=sbr
 set showbreak=↪>\  " ↪ space
 set autoindent smartindent tabstop=2 shiftwidth=2 softtabstop=2 expandtab
 set whichwrap+=<,>,h,l,[,]
@@ -547,7 +542,7 @@ func! BlackHoleDeleteOperator(type, ...)
     execute 'normal! `<' . a:type . '`>"_d'
   endif
 endf
-nnoremap <silent> <BS> :set opfunc=BlackHoleDeleteOperator<CR>g@
+" nnoremap <silent> <BS> :set opfunc=BlackHoleDeleteOperator<CR>g@
 vnoremap <silent> <BS> :<C-u>call BlackHoleDeleteOperator(visualmode(), 1)<CR>
 " }}}
 
