@@ -1,60 +1,4 @@
-" Plugins {{{
-" Plugin manager provided by: https://github.com/junegunn/vim-plug
-call plug#begin('~/.config/nvim/plugged')
-Plug 'https://github.com/Raimondi/delimitMate'
-" Don't use deoplete. It was interupting typing too much
-" Plug 'https://github.com/Shougo/deoplete.nvim'
-Plug 'https://github.com/airblade/vim-gitgutter.git'
-Plug 'https://github.com/benekastah/neomake'
-Plug 'https://github.com/jeetsukumaran/vim-indentwise'
-Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
-Plug 'junegunn/fzf.vim'
-Plug 'https://github.com/junegunn/vim-peekaboo.git'
-Plug 'https://github.com/justinmk/vim-sneak'
-Plug 'https://github.com/kana/vim-arpeggio'
-Plug 'https://github.com/kana/vim-smartword'
-Plug 'https://github.com/kana/vim-submode'
-Plug 'https://github.com/kana/vim-textobj-indent'
-Plug 'https://github.com/kana/vim-textobj-line'
-Plug 'https://github.com/kana/vim-textobj-underscore'
-Plug 'https://github.com/kana/vim-textobj-user.git'
-Plug 'https://github.com/kassio/neoterm'
-Plug 'https://github.com/kshenoy/vim-signature.git'
-Plug 'https://github.com/majutsushi/tagbar.git'
-Plug 'https://github.com/mxw/vim-jsx'
-Plug 'https://github.com/nelstrom/vim-textobj-rubyblock.git'
-Plug 'https://github.com/osyo-manga/vim-monster.git'
-Plug 'https://github.com/pangloss/vim-javascript'
-Plug 'https://github.com/plasticboy/vim-markdown'
-Plug 'https://github.com/rust-lang/rust.vim.git'
-Plug 'https://github.com/scrooloose/nerdtree'
-Plug 'https://github.com/terryma/vim-multiple-cursors'
-Plug 'https://github.com/tpope/vim-commentary'
-Plug 'https://github.com/tpope/vim-endwise'
-Plug 'https://github.com/tpope/vim-fugitive'
-Plug 'https://github.com/tpope/vim-haml'
-Plug 'https://github.com/tpope/vim-obsession'
-Plug 'https://github.com/tpope/vim-rails'
-Plug 'https://github.com/tpope/vim-repeat'
-Plug 'https://github.com/tpope/vim-scriptease.git'
-Plug 'https://github.com/tpope/vim-sensible'
-Plug 'https://github.com/tpope/vim-surround'
-Plug 'https://github.com/tpope/vim-unimpaired.git'
-Plug 'https://github.com/tpope/vim-vinegar'
-Plug 'https://github.com/vim-airline/vim-airline'
-Plug 'https://github.com/vim-airline/vim-airline-themes'
-Plug 'https://github.com/vim-ruby/vim-ruby'
-Plug 'https://github.com/wellle/targets.vim.git'
-Plug 'https://github.com/zeekay/vimtips.git'
-Plug 'https://github.com/terryma/vim-expand-region'
-Plug 'https://github.com/haya14busa/incsearch.vim'
-Plug 'https://github.com/ecomba/vim-ruby-refactoring'
-Plug 'https://github.com/AndrewRadev/sideways.vim'
-Plug 'https://github.com/AndrewRadev/splitjoin.vim'
-Plug 'https://github.com/AndrewRadev/switch.vim'
-Plug 'tek/vim-fieldtrip'
-call plug#end()
-" }}}
+source ~/.config/nvim/plugins.vim
 
 runtime macros/matchit.vim
 call arpeggio#load()
@@ -64,10 +8,12 @@ scriptencoding utf-8
 
 filetype indent plugin on
 syntax sync fromstart
+" default to syntax completion
+" Thanks: https://www.reddit.com/r/vim/comments/4aab93/weekly_vim_tips_and_tricks_thread_1/d0za3nh
+set omnifunc=syntaxcomplete#Complete
 
-" tree style listing
-let g:netrw_liststyle=3
-let g:netrw_altfile=1
+" turn off bell on ESC
+set noerrorbells visualbell t_vb=
 
 " misc
 set nostartofline
@@ -83,6 +29,8 @@ set virtualedit=block
 " I tried this while ignoring case and it was driving me crazy
 set noignorecase
 set smartcase
+set nocursorcolumn
+set nocursorline
 
 " No tmp or swp files
 set nobackup
@@ -113,8 +61,8 @@ set synmaxcol=1000
 " Sensible window sizes
 set winheight=10
 set winwidth=80
-set winminheight=5
-set winminwidth=15
+set winminheight=1
+set winminwidth=5
 
 " no background on vertical split
 highlight VertSplit cterm=bold ctermfg=11 ctermbg=NONE
@@ -124,7 +72,9 @@ set textwidth=80
 set linebreak     " break at whitespace
 set nolist        " list disables linebreak
 set nowrap
-set nolazyredraw
+set lazyredraw    " reduced screen flicker
+set breakindent
+set breakindentopt=sbr
 set showbreak=↪>\  " ↪ space
 set autoindent smartindent tabstop=2 shiftwidth=2 softtabstop=2 expandtab
 set whichwrap+=<,>,h,l,[,]
@@ -142,34 +92,94 @@ set completeopt=menuone,preview
 " }}}
 
 " Airline {{{
-let g:airline#extensions#tabline#left_alt_sep = '|'
-" no more top bar. lets see if we can live without it.
-let g:airline#extensions#tabline#enabled = 0
-let g:airline#extensions#tabline#formatter = 'unique_tail'
-let g:airline#extensions#quickfix#quickfix_text = 'Quickfix'
-let g:airline#extensions#quickfix#location_text = 'Location'
-" removes full path from status line. just show the file name
-let g:airline_section_c = '%<%t%m %#__accent_red#%{airline#util#wrap(airline#parts#readonly(),0)}%#__restore__#'
-let g:airline_left_sep = ''
-let g:airline_right_sep = ''
-let g:airline_powerline_fonts = 0
-let g:airline_theme='solarized'
-let g:airline_section_x=''
-let g:airline_section_y=''
+" Disable: no more airline. try a simple status line instead.
+" let g:airline#extensions#tabline#left_alt_sep = '|'
+" " no more top bar. lets see if we can live without it.
+" let g:airline#extensions#tabline#enabled = 0
+" let g:airline#extensions#tabline#formatter = 'unique_tail'
+" let g:airline#extensions#quickfix#quickfix_text = 'Quickfix'
+" let g:airline#extensions#quickfix#location_text = 'Location'
+" let g:airline#extensions#branch#enabled = 0
+" " removes full path from status line. just show the file name
+" let g:airline_section_c = '%<%t%m %#__accent_red#%{airline#util#wrap(airline#parts#readonly(),0)}%#__restore__#'
+" let g:airline_left_sep = ''
+" let g:airline_right_sep = ''
+" let g:airline_powerline_fonts = 0
+" let g:airline_theme='solarized'
+" let g:airline_section_x=''
+" let g:airline_section_y=''
+" }}}
+
+" Markdown Settings {{{
 let g:vim_markdown_fenced_languages=['c++=cpp', 'viml=vim', 'bash=sh', 'ini=dosini', 'rb=ruby']
+" }}}
+
+" Statusline {{{
+" Thanks: https://github.com/airblade/dotvim/blob/master/vimrc
+hi clear StatusLine
+hi clear StatusLineNC
+hi StatusLine   term=none ctermfg=0 ctermbg=0
+hi StatusLineNC term=bold ctermfg=0 ctermbg=0
+
+" highlight values in terminal vim, colorscheme solarized
+hi User1                      ctermbg=0 ctermfg=9          guifg=#40ffff            " Identifier
+hi User2                      ctermbg=0 ctermfg=2 gui=bold guifg=#ffff60            " Statement
+hi User3 term=bold cterm=bold ctermbg=0 ctermfg=1          guifg=White   guibg=Red  " Error
+hi User4                      ctermbg=0 ctermfg=1          guifg=Orange             " Special
+hi User5                      ctermbg=0 ctermfg=10         guifg=#80a0ff            " Comment
+hi User6 term=bold cterm=bold ctermbg=0 ctermfg=1          guifg=Red                " WarningMsg
+
+function! WindowNumber()
+  return tabpagewinnr(tabpagenr())
+endfunction
+function! TrailingSpaceWarning()
+  if !exists("b:statline_trailing_space_warning")
+    let lineno = search('\s$', 'nw')
+    if lineno != 0
+      let b:statline_trailing_space_warning = ''.lineno.'!'
+    else
+      let b:statline_trailing_space_warning = ''
+    endif
+  endif
+  return b:statline_trailing_space_warning
+endfunction
+
+" recalculate when idle, and after saving
+augroup statline_trail
+  autocmd!
+  autocmd cursorhold,bufwritepost * unlet! b:statline_trailing_space_warning
+augroup END
+
+set statusline=
+set statusline+=%1*%m%r%*                          " modified, readonly
+set statusline+=%5*%{expand('%:h')}/               " relative path to file's directory
+set statusline+=%2*%t%*                            " file name
+set statusline+=\ %=                               " switch to RHS
+set statusline+=%5*%L%*%2*g                        " number of lines
+set statusline+=\ %3*%{TrailingSpaceWarning()}%*     " trailing whitespace
+set statusline+=\ %2*#%-3.3{WindowNumber()}%*        " window number
 " }}}
 
 " NeoVim {{{
 if has('nvim')
   let $NVIM_TUI_ENABLE_CURSOR_SHAPE=1
   tnoremap <Esc><Esc> <C-\><C-n>
+  " tnoremap gf :pedit <cfile><cr>
   augroup neovim_stuff
     au!
     autocmd BufWinEnter,WinEnter term://*
           \ setlocal nonumber norelativenumber
-    autocmd WinEnter term://*
-          \ startinsert
+    " autocmd WinEnter term://* startinsert
   augroup END
+
+  function! TermGf()
+    if &buftype ==# "terminal"
+      :vertical pedit <cfile>
+    else
+      normal! gf
+    endif
+  endfunction
+  nnoremap gf :call TermGf()<CR>
 endif
 " }}}
 
@@ -194,13 +204,19 @@ let g:fzf_action = {
 " Autocmds Settings  {{{
 augroup basics_autocmd
   au!
-  " sets special tag files to include gem.tagsand look at parent dirs
-  " remove '_' from ruby keyword so `w` stops at underscore
+  " sets special tag files to include gem.tags and look at parent dirs
   autocmd FileType ruby set tags=gem.tags,tags;/
-        \ | setlocal makeprg=rubocop\ \-\-format\ emacs\ %
-  autocmd FileType javascript set tags=.tags.jsx,tags
+        \ | setlocal makeprg=rubocop\ --format\ emacs\ %
+        \ | setlocal formatprg=rubocop\ -a\ --stdin\ %\ \|sed\ '1,/====================/d'
+
+  autocmd FileType javascript,javascript.jxs set tags=.tags.jsx,tags
+        \ | command! -buffer Reformat call SaveViewExecute('!eslint --fix %')
+        " This doesn't work :( \ | setlocal formatprg=eslint\ --stdin\ --fix
+
   autocmd FileType markdown,vim setlocal textwidth=80
   autocmd FileType java,go,hs set autoindent smartindent tabstop=4 shiftwidth=4  noexpandtab
+
+  autocmd FileType markdown set makeprg=diction\ % errorformat=%f:%l:\ %m
 
   " set term title to current file
   autocmd BufEnter * let &titlestring=expand("%:t") | set title
@@ -209,7 +225,7 @@ augroup basics_autocmd
   autocmd BufWritePost * Neomake
 
   " open search results immediately
-  autocmd QuickFixCmdPost *grep* cwindow
+  autocmd QuickFixCmdPost * copen | setlocal winfixwidth winfixheight
   autocmd VimResized * let &previewheight=(winheight(0) * 1/3)
   autocmd BufEnter init.vim setlocal foldmethod=marker
 
@@ -226,7 +242,8 @@ nnoremap <Space> <Nop>
 let mapleader=" "
 
 " Fix my common typos
-command! W w   " write it
+command! W w    " write it
+command! QQ qa! " quit I mean it!
 
 " <C-@> is same as <S-Space>
 inoremap <C-@> <C-n>
@@ -260,10 +277,11 @@ inoremap <Space> <C-g>u<Space>
 " Warning: I'm killing the 2nd <C-r> in these modes because '"' is too hard to
 " reach. This makes <C-r> more consistent with Register access in insert and
 " command mode.
-nnoremap <C-r> :echo 'which regster? (access Redo with <S-u>)'<cr>"
 nnoremap <C-r><C-r> ""
 cnoremap <C-r><C-r> <C-r>"
 vnoremap <C-r><C-r> ""
+cnoremap <C-k> <up>
+cnoremap <C-j> <down>
 
 " Warning: This pastes the last thing yanked! Awesome sauce!
 inoremap <C-r><C-r> <C-r>"
@@ -282,16 +300,25 @@ noremap <ScrollWheelDown> <C-E>
 
 " Warning: Faster schooling with C-e/y and keeps cursor in place.
 " This is similar to <C-d/u> behavior
-nnoremap <C-e> 3<C-e>3j
-nnoremap <C-y> 3<C-y>3k
+nnoremap <C-e> 3<C-e>3gj
+nnoremap <C-y> 3<C-y>3gk
 
-" Search Replace {{{
-nnoremap cn *``cgn
-nnoremap cN #``cgn
+" Search Replace Helpers {{{
+" Allows use of '.' to change the next occurance of the same work. Totally Sweet!
+nnoremap c* *<C-o>cgn
+nnoremap c# #<C-o>cgn
+nnoremap <Leader>*  /\v<<C-r><C-w>><CR><C-o>
+nnoremap <Leader>// /\v<<C-r><C-w>><CR><C-o>
+nnoremap <Leader>/w /\v<><left>
+nnoremap <Leader>/s :%s/\v<<C-r><C-w>>//gce<left><left><left>
 " }}}
 
-" Nerd Tree {{{
-nnoremap <Leader>n :NERDTreeToggle<CR>
+" Nerd Tree / Netrw {{{
+let g:netrw_liststyle=3
+let g:netrw_altfile=1
+let g:netrw_winsize=25
+nnoremap <Leader>n :Lexplore<CR>
+nnoremap - :exe 'Lexplore' expand('%:h')<CR>
 " }}}
 
 " Tagbar {{{
@@ -300,12 +327,12 @@ nnoremap <Leader>ta :TagbarOpenAutoClose<CR>
 " }}}
 
 " Neoterm mappings {{{
-nnoremap <Leader>tt :Topen<CR>
-nnoremap <Leader>tr :TREPLSend<CR>
+" nnoremap <Leader>tt :Topen<CR>
+" nnoremap <Leader>tr :TREPLSend<CR>
 " }}}
 
-" Pager like Less/More
-nnoremap <Leader><Space> <C-d>
+" Easy Command Mode
+nnoremap <Leader>; :
 
 " Paste mode, NeoVim might not need this.
 nnoremap <silent> <f5> :set paste!<CR>
@@ -379,11 +406,27 @@ nnoremap <C-q> :close<CR>
 " Warning: C-n/C-p to move to next/previous buffer. Instead of down/up lines.
 nnoremap <silent> <C-p> :bprevious<CR>
 nnoremap <silent> <C-n> :bnext<CR>
+" Jump out until buffer changes {{{
+function! s:jump_till_next_buffer() abort
+  let current_nr = bufnr('%')
+  let max = 100
+  while bufnr('%') == current_nr
+    exec "normal \<C-o>"
+    if max == 0
+      echo 'max jumps reached!'
+      break
+    endif
+    let max -= 1
+  endwhile
+endfunction
 " [x]-out the current buffer and jump out.
-nnoremap <silent> <C-x> <C-o>:bdelete #<CR>
+" nnoremap <silent> <C-x> <C-o>:bdelete! #<CR>
+nnoremap <C-x> :call <SID>jump_till_next_buffer() <BAR>bd#<CR>
+" }}}
+nnoremap <Leader><Tab> <C-^>
 
 " Populate QuickFix with branch changes
-command! QfBranch cexpr! system("git diff --name-only  `git log --graph --oneline -99 \| grep -A 1 -E '^\\* [0-9a-f]{7}' \| cut -c 5-11 \| tail -1`.. \| sed -E 's/(.*)/\\1:0:0 \\1/'") | copen
+command! QfBranch cgetexpr system("git diff --name-only  `git log --graph --oneline -99 \| grep -A 1 -E '^\\* [0-9a-f]{7}' \| cut -c 5-11 \| tail -1`.. \| sed -E 's/(.*)/\\1:0:0 \\1/'") | copen
 
 " WIP - sed doesn't work in script, but does in terminal :/
 " command! QfStat cexpr! system("git diff --stat=999 --name-only"
@@ -411,30 +454,21 @@ nnoremap <silent> <Leader>bo :update<cr>:%bd<cr>:e#<CR>
 " Not a FZF but I like the 'f' prefix :/
 map <Leader>fw [I:let nr = input("Which tag?: ")<Bar>exe "normal " . nr ."[\t"<CR>
 
-" Warning: Delete to "x register
-vnoremap x "xx
-vnoremap X "xX
-
-" Delete to "d register
-" I use dd too much expecting to cut.
-"nnoremap d "dd
-"nnoremap D "dD
-
 " Warning: Yank without moving cursor! Awesome Sauce!
 "          exit visual mode, my=mark y, last visual selection, y, go to mark
 " Thanks: http://ddrscott.github.io/blog/2016/yank-without-jank/#comment-2643800118
-vnoremap <expr>y 'my"' . v:register . 'y`y'
-vnoremap <expr>Y 'my"' . v:register . 'Y`y'
+vnoremap <expr>y 'my"'.v:register.'y`y'
+vnoremap <expr>Y 'my"'.v:register.'Y`y'
 
 " Warning: Marks last yank position.
-nnoremap y myy
-nnoremap Y myy$
+nnoremap <expr>y 'my"'.v:register.'y'
+nnoremap <expr>Y 'my"'.v:register.'y$'
 
 " Warning: Paste moves to end of change. As if you typed in the change.
 " This paste also maintains indent level with line above it.
 " Also re-indents what ever was pasted.
-nnoremap p ]p`]mp=`[`p
-nnoremap P ]P`]mp=`[`p
+nnoremap <expr>p '"'.v:register.']p`]mp=`[`p'
+nnoremap <expr>P '"'.v:register.']P`]mp=`[`p'
 
 " Visual Paste Override {{{
 " Warning: overrides `p` and `P` behavior by preserving the "" register and
@@ -454,14 +488,6 @@ vnoremap <silent> <expr> p VisualPaste()
 " nnoremap c mcc
 " vnoremap c <ESC>mcgvc
 " vnoremap C <ESC>mcgvC
-
-" Quick Inserts {{{
-" There's no way to remember this unless you're me.
-" I often `dw` parameters and append them to reorder as needed.
-" Usage: `dw`, `e` to the new location, `, `
-" Note: specifically NOT <Leader><Space> because ',' is a parameter seperator.
-nnoremap ,<SPACE> a, <C-r>"<ESC>
-" }}}
 
 " Grep Stuff
 " Warning: sets @/ register to current word
@@ -488,7 +514,7 @@ function! Gsub(a, b, re)
     let z=@/
     exe "'" . a:a . ",'" . a:b . a:re
   finally
-    unlet z
+    let @/=z
   endtry
 endfunction
 " }}}
@@ -586,11 +612,12 @@ iab deb debugger; // eslint-disable-line
 
 " Cursorline {{{
 " Only show cursorline in the current window and in normal mode.
-augroup cline
-  au!
-  au WinLeave,InsertEnter * set nocursorline
-  au WinEnter,InsertLeave * set cursorline
-augroup END
+" Disabled: This makes Vim slow for some reason.
+" augroup cline
+"   au!
+"   au WinLeave,InsertEnter * set nocursorline
+"   au WinEnter,InsertLeave * set cursorline
+" augroup END
 " }}}
 
 " Line Return {{{
@@ -705,7 +732,9 @@ augroup neomake_stuff
   let g:jsx_ext_required = 1
   let g:neomake_javascript_enabled_makers = ['eslint']
   let g:neomake_jsx_enabled_makers = ['eslint']
-  let g:neomake_open_list = 0
+  " let g:neomake_open_list = 2
+  sign define neomake_err text=⛔️
+  sign define neomake_warn text=💩
 augroup END
 
 " Git Gutter {{{
@@ -842,6 +871,10 @@ endfunction
 
 " Indent all lines without changing jumps or cursor position.
 nnoremap <silent> g= :call SaveViewExecute('normal! gg=G')<CR>
+command! Reformat call SaveViewExecute('normal! gggqG')
+
+" Re-indent last change and move cursor to end of change
+nnoremap =. :normal! =````<CR>
 " }}}
 
 " Split Join {{{
@@ -877,7 +910,7 @@ let g:sneak#s_next = 1
 " }}}
 
 " Side Toggle {{{
-" Toggles a window with `a:src` file 
+" Toggles a window with `a:src` file
 " Example:  nnoremap <silent> <Leader>f0 :call <SID>side_toggle('~/notes/vim.md', 0.25)<CR><C-w>p
 "           <C-w>p focuses on previous window.
 " Params: a:src - the file to open
@@ -894,5 +927,64 @@ function! s:side_toggle(src, width) abort
   setlocal bufhidden=hide foldcolumn=0 textwidth=0 winfixheight winfixwidth
   let s:side_bufnr = bufnr('%')
 endfunction
+
+" [f]ile toggle 0 to view file, <Shift-0> to edit it
+" repeat the f, command to close the buffer
 nnoremap <silent> <Leader>f0 :call <SID>side_toggle('~/notes/vim.md', 0.25)<CR><C-w>p
+nnoremap <silent> <Leader>f) :call <SID>side_toggle('~/notes/vim.md', 0.25)<CR>
+" }}}
+
+" Startify {{{
+let g:startify_change_to_dir=0
+let g:startify_change_to_vcs_root=1
+" }}}
+
+" Split Dot {{{
+command! SplitDot
+      \ let _s=@/                               <bar>
+      \ s/\v\.\w+%(\([^)]+\)|\{[^}]+})*/\r\0/g  <bar>
+      \ let @/=_s                               <bar>
+      \ keepjumps normal! ``=']']
+
+nnoremap <Leader>sd :SplitDot<CR>
+" }}}
+
+" terminal in new split {{{
+command! -complete=file -nargs=+ Vterm vnew | setlocal winfixwidth winfixheight | terminal <args>
+command! -complete=file -nargs=+ Sterm new | setlocal winfixwidth winfixheight | terminal <args>
+nnoremap <Leader>tv :vnew <BAR>setlocal winfixwidth winfixheight <BAR> terminal<SPACE>
+nnoremap <Leader>ts :new <BAR>setlocal winfixwidth winfixheight <BAR> terminal<SPACE>
+" }}}
+
+" Side Search {{{
+let g:side_search_prg = 'ag --word-regexp'
+      \. " --ignore='*.js.map'"
+      \. " --ignore='*.csv'"
+      \. " --ignore='ui/public/client'"
+      \. " --ignore='cassettes/'"
+      \. " --ignore='components/help'"
+      \. " --heading --stats -C 2 --group"
+let g:side_search_splitter = 'vnew'
+let g:side_search_split_pct = 0.4
+
+" SideSearch current word and return to original window
+nnoremap <Leader>ss :SideSearch <C-r><C-w><CR> | wincmd p
+
+" SS shortcut and return to original window
+command! -complete=file -nargs=+ SS execute 'SideSearch <args>'
+" }}}
+
+" Window Mappings for improved layout commands {{{
+" Important: `:<C-U>` is required the function doesn't get called multiple times.
+nnoremap ]r :<C-U>call window#buffer_rotate(-1 * v:count1)<cr>
+nnoremap [r :<C-U>call window#buffer_rotate(1 * v:count1)<cr>
+
+nmap <C-w>r ]r
+nmap <C-w><C-r> ]r
+
+nnoremap <c-w>x :<C-U>call window#exchange(v:count)<cr>
+nnoremap <c-w><c-x> :<C-U>call window#exchange(v:count)<cr>
+
+nnoremap <c-w>o :call window#only()<cr>
+nnoremap <c-w><c-o> :call window#only()<cr>
 " }}}
