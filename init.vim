@@ -317,8 +317,10 @@ nnoremap <Leader>/s :%s/\v<<C-r><C-w>>//gce<left><left><left>
 let g:netrw_liststyle=3
 let g:netrw_altfile=1
 let g:netrw_winsize=25
-nnoremap <Leader>n :Lexplore<CR>
-nnoremap - :exe 'Lexplore' expand('%:h')<CR>
+" nnoremap <Leader>n :Lexplore<CR>
+" nnoremap - :exe 'Lexplore' expand('%:h')<CR>
+nnoremap <Leader>n :NERDTreeToggle<CR>
+nnoremap - :NERDTreeFind<CR>
 " }}}
 
 " Tagbar {{{
@@ -442,6 +444,7 @@ nnoremap <silent> <Leader>ef :Files<CR>
 nnoremap <silent> <Leader>fh :Hist<CR>
 nnoremap <silent> <Leader>fm :Marks<CR>
 nnoremap <silent> <Leader>fb :Buffers<CR>
+nnoremap <silent> <Leader>ls :Buffers<CR>
 nnoremap <silent> <Leader>fd :SinceDev<CR>
 " }}
 
@@ -989,3 +992,6 @@ nnoremap <c-w><c-x> :<C-U>call window#exchange(v:count)<cr>
 nnoremap <c-w>o :call window#only()<cr>
 nnoremap <c-w><c-o> :call window#only()<cr>
 " }}}
+
+" command! Duplicate execute('normal :saveas '.expand('%'))
+cnoremap <C-e> <C-R>=expand('%')<CR>
