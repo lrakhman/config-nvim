@@ -71,7 +71,7 @@ highlight VertSplit cterm=bold ctermfg=11 ctermbg=NONE
 set textwidth=80
 set linebreak     " break at whitespace
 set nolist        " list disables linebreak
-set nowrap
+set wrap
 set lazyredraw    " reduced screen flicker
 set breakindent
 set breakindentopt=sbr
@@ -402,7 +402,8 @@ command! QA qa
 " Faster :ex commands
 nnoremap <C-s> :write<CR>
 inoremap <C-s> <ESC>:write<CR>
-nnoremap <C-q> :close<CR>
+" nnoremap <C-q> :close<CR> this was quitting out of a window
+nnoremap <Leader><S-t> :vert split #<CR>
 
 " Buffer Stuff
 " Warning: C-n/C-p to move to next/previous buffer. Instead of down/up lines.
@@ -995,3 +996,7 @@ nnoremap <c-w><c-o> :call window#only()<cr>
 
 " command! Duplicate execute('normal :saveas '.expand('%'))
 cnoremap <C-e> <C-R>=expand('%')<CR>
+if has('persistent_undo')      "check if your vim version supports it
+  set undofile                 "turn on the feature
+  set undodir=$HOME/.vim/undo  "directory where the undo files will be stored
+  endif
